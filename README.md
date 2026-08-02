@@ -86,6 +86,23 @@ ros2 launch my_robot_description display.launch.xml
 # 阶段2启动 my_robot_bringup
 ros2 launch my_robot_bringup my_robot.launch.xml
 
+# 阶段3 调用moveit2规划运动
+ros2 run my_robot_commander_cpp test_moveit  
+ros2 run my_robot_commander_cpp commander  
+
+#1)发送话题 /open_gripper 观察夹爪是否关闭
+yishan@LAPTOP-1DTG0HVO:~/projects/ros2_ws$ ros2 topic pub -1 /open_gripper  example_interfaces/msg/Bool "{data: false}"
+publisher: beginning loop
+publishing #1: example_interfaces.msg.Bool(data=False)
+
+2)发送话题 /joint_command 观察关节角度变化
+yishan@LAPTOP-1DTG0HVO:~/projects/ros2_ws$ ros2 topic pub -1 /joint_command  example_interfaces/msg/Float64MultiArray "{data: [0.5,0.5,0.5,0.5,0.5,0.5]}"
+
+3)发送话题 /pose_command 观察机械臂位姿变化
+yishan@LAPTOP-1DTG0HVO:~/projects/ros2_ws$ ros2 topic pub -1 /pose_command  my_robot_interfaces/msg/PoseCommand "{x: 0.7,y: 0.0,z: 0.4,roll: 3.14,pitch: 0.0,yaw: 0.0,cartesian_path: false}"
+# 开启笛卡尔路径规划
+yishan@LAPTOP-1DTG0HVO:~/projects/ros2_ws$ ros2 topic pub -1 /pose_command  my_robot_interfaces/msg/PoseCommand "{x: 0.7,y: 0.0,z: 0.2,roll: 3.14,pitch: 0.0,yaw: 0.0,cartesian_path: true}"
+
 ```
 
 启动后会出现：
