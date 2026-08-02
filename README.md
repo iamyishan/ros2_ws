@@ -80,8 +80,12 @@ colcon build --symlink-install --packages-select my_robot_moveit_config
 # 加载环境（每个新终端都需要）
 source ~/projects/ros2_ws/install/setup.bash
 
-# 启动 URDF 可视化
+# 阶段1 启动 URDF 可视化
 ros2 launch my_robot_description display.launch.xml
+
+# 阶段2启动 my_robot_bringup
+ros2 launch my_robot_bringup my_robot.launch.xml
+
 ```
 
 启动后会出现：
